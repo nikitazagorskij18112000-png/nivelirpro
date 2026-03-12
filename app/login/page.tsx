@@ -13,7 +13,10 @@ export default function LoginPage() {
 
   async function sendCode() {
     setLoading(true); setError('')
-    const { error } = await supabase.auth.signInWithOtp({ email })
+    const { error } = await supabase.auth.signInWithOtp({ 
+      email,
+      options: { shouldCreateUser: true }
+    })
     if (error) setError('Ошибка: ' + error.message)
     else setStep('code')
     setLoading(false)
@@ -36,7 +39,6 @@ export default function LoginPage() {
           </div>
           <div style={{ color:'#64748b', fontSize:13, marginTop:4 }}>Геодезическая платформа 3.0</div>
         </div>
-
         {step === 'email' ? (
           <>
             <div style={{ marginBottom:8, color:'#94a3b8', fontSize:13 }}>Введите ваш email для входа</div>
@@ -67,9 +69,9 @@ export default function LoginPage() {
             </button>
           </>
         )}
-
         {error && <div style={{ marginTop:12, padding:'8px 12px', background:'#7f1d1d', border:'1px solid #ef4444', borderRadius:6, color:'#fca5a5', fontSize:13 }}>{error}</div>}
       </div>
     </div>
   )
 }
+```
